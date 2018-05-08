@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/03 17:36:31 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/08 13:23:22 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_maloc	t_maloc;
 struct			s_block
 {
 	uint32_t	size : 31;
-	int8_t		free : 1;
+	int8_t		use : 1;
 };
 
 struct	s_page
