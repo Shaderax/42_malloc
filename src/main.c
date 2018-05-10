@@ -2,39 +2,18 @@
 #include <stdio.h>
 #include "malloc.h"
 
-void	ft_show_alloc()
-{
-	t_page *tiny;
-	t_block	*cur;
-
-	tiny = g_maloc.tiny;
-	cur = (void *)(tiny + sizeof(t_page));
-	while (1)
-	{
-		if (cur->size == 0 || cur == (void *)(tiny + TINY_MAP))
-		{
-			if (!tiny->next)
-				break ;
-			tiny = tiny->next;
-		}
-		printf("Size : %d, Use : %d\n", cur->size, (cur->use & (1 << 1)) ? 1 : 0);
-		cur = (void*)(cur) + sizeof(t_block) + cur->size;
-	}
-}
-
 int main(int argc, char **argv)
 {
-	char *str;
-	char *str2;
-	char *str3;
-	char *str4;
-	int i = 0;
+	int nb_i = 5;
+	char *str[nb_i];
+	int i = -1;
 
 	printf("Size of page : %d\n", getpagesize());
-	while (i++ < 24)
-	{
-		str = ft_malloc(300);
-		str[0] = 'h';
-	}
-	ft_show_alloc();
+	while (++i < nb_i)
+		str[i] = ft_malloc(500);
+	str[i] = ft_malloc(300);
+	str[i] = ft_malloc(30000);
+	str[i] = ft_malloc(300000);
+	str[i] = ft_malloc(0);
+	show_alloc();
 }

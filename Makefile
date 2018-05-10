@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/02 18:38:01 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/10 13:08:00 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ LFT_PATH = libft
 INC_LFT_PATH = -I ./libft/libft/includes/ -I ./libft/printf/
 
 SRC_NAME = malloc.c \
-		   main.c
+		   main.c \
+		   show_alloc.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
