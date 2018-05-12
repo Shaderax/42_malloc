@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/10 16:17:11 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/12 15:17:09 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	cur_page = (*b_page);
 	while (1)
 	{
-		cur = (void *)(cur_page + sizeof(t_page));
-		while ((void*)cur < (void *)(cur_page) + size_m && cur->use && (cur->size < size || (void*)(cur_page) + size_m - (void *)(cur) > size + sizeof(t_block)))
-			cur = (void*)(cur) + sizeof(t_block) + cur->size;
-		if ((void*)cur >= (void *)(cur_page) + size_m || (void*)(cur_page) + size_m - (void *)(cur) < size + sizeof(t_block))
+		cur = (void *)cur_page + sizeof(t_page);
+		while ((void*)cur < (void *)cur_page + size_m && cur->use && (cur->size < size || (void*)cur_page + size_m - (void *)cur > size + sizeof(t_block)))
+			cur = (void*)cur + sizeof(t_block) + cur->size;
+		if ((void*)cur >= (void *)cur_page + size_m || (void*)cur_page + size_m - (void *)cur < size + sizeof(t_block))
 		{
 			if (!cur_page->next)
 				cur_page->next = mmap(NULL, size_m, PROT_READ | PROT_WRITE,
@@ -38,7 +38,7 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 		}
 		cur->size = size;
 		cur->use = 1;
-		return (((void *)cur) + sizeof(t_block));
+		return ((void *)cur + sizeof(t_block));
 	}
 }
 void	*alloc_large(size_t size)
@@ -62,7 +62,7 @@ void	*alloc_large(size_t size)
 		cur_page = cur_page->next;
 	}
 	cur_page->size = size;
-	return ((void*)(cur_page) + sizeof(t_page_large));
+	return ((void*)cur_page + sizeof(t_page_large));
 }
 
 void	*ft_malloc(size_t size)

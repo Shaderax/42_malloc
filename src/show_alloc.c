@@ -9,7 +9,7 @@ size_t	show(t_page *begin, size_t size_m)
 
 	tt = 0;
 	cur_page = begin;
-	cur = (void *)(cur_page + sizeof(t_page));
+	cur = (void *)(cur_page) + sizeof(t_page);
 	while (1)
 	{
 		if (cur->size == 0 || (void*)cur >= (void *)(cur_page) + size_m)
@@ -17,11 +17,11 @@ size_t	show(t_page *begin, size_t size_m)
 			if (!cur_page->next)
 				break ;
 			cur_page = cur_page->next;
-			cur = (void *)(cur_page + sizeof(t_page));
+			cur = (void *)(cur_page) + sizeof(t_page);
 		}
-		if (cur->use)
+		if (cur->use || !cur->use)
 		{
-			printf("%p - %p : %u octects\n", (void *)(cur) + sizeof(t_block), (void *)cur + cur->size + sizeof(t_block), cur->size);
+			printf("%p - %p : %u octects, Use : %d\n", (void *)(cur) + sizeof(t_block), (void *)cur + cur->size + sizeof(t_block), cur->size, (cur->use & (1 << 1)) ? 1 : 0);
 			tt += cur->size;
 		}
 //		printf("Size : %d, Use : %d\n", cur->size, (cur->use & (1 << 1)) ? 1 : 0);

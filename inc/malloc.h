@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/10 16:08:22 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/12 16:09:13 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ struct 	s_maloc
 	t_page *tiny;
 	t_page *small;
 	t_page_large *large;
+	char	utab[8];
 };
 
 extern t_maloc			g_maloc;
 
 void	*ft_malloc(size_t size);
 void	show_alloc();
+void	ft_free(void	*ptr);
 
 #endif
