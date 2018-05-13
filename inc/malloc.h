@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/12 16:09:13 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/14 01:01:57 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,10 @@ extern t_maloc			g_maloc;
 void	*ft_malloc(size_t size);
 void	show_alloc();
 void	ft_free(void	*ptr);
+void	*ft_realloc(void *ptr, size_t size);
+void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev);
+
+void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev);
+void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr);
 
 #endif

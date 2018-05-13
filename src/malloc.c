@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/12 15:17:09 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/14 01:57:14 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	while (1)
 	{
 		cur = (void *)cur_page + sizeof(t_page);
-		while ((void*)cur < (void *)cur_page + size_m && cur->use && (cur->size < size || (void*)cur_page + size_m - (void *)cur > size + sizeof(t_block)))
+		while ((void*)cur < (void *)cur_page + size_m && (cur->size < size || (void*)cur_page + size_m - (void *)cur > size + sizeof(t_block)))
 			cur = (void*)cur + sizeof(t_block) + cur->size;
 		if ((void*)cur >= (void *)cur_page + size_m || (void*)cur_page + size_m - (void *)cur < size + sizeof(t_block))
 		{

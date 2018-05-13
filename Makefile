@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/11 17:48:49 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/14 01:01:42 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,10 @@ INC_LFT_PATH = -I ./libft/libft/includes/ -I ./libft/printf/
 SRC_NAME = malloc.c \
 		   main.c \
 		   show_alloc.c \
-		   free.c
+		   free.c \
+		   defrag_mem.c \
+		   realloc.c \
+		   alloc_finder.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
