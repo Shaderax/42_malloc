@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/14 01:01:57 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/15 15:23:07 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev);
 
 void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev);
 void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr);
+void	*find_place(t_page *cur_page, size_t size_m, size_t size);
 
 #endif

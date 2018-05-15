@@ -6,11 +6,25 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 21:23:23 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/13 22:28:28 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/15 14:33:12 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+void	free_map(t_page *cur_page, t_page *prev, size_t size_m)
+{
+	if (prev != cur_page)
+		prev->next = cur_page->next;
+	else
+	{
+		if (size_m == TINY_MAP)
+			g_maloc.tiny = NULL;
+		else
+			g_maloc.small = NULL;
+	}
+	munmap(cur_page, size_m);
+}
 
 void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev)
 {
@@ -22,7 +36,7 @@ void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev)
 	cur = (void*)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if ((void*)cur >= (void*)cur_page + size_m || !cur->size)
+		if (!cur->size)
 			break ;
 		if (cur->use)
 			used++;
@@ -43,13 +57,5 @@ void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev)
 		cur = (void *)cur + sizeof(t_block) + cur->size;
 	}
 	if (!used)
-	{
-		if (prev != cur_page)
-			prev->next = cur_page->next;
-		munmap(cur_page, size_m);
-		if (size_m == TINY_MAP)
-			g_maloc.tiny = NULL;
-		else
-			g_maloc.small = NULL;
-	}
+		free_map(cur_page, prev, size_m);
 }

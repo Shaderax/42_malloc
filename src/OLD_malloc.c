@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/15 15:21:30 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/15 13:34:07 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,18 @@
 t_maloc		g_maloc = {NULL, NULL, NULL};
 // BZERO LA MEM
 
-void	*place_2_blocks(t_block *cur, size_t size)
+void	search_place()
 {
-	int size_tmp;
-   
-	size_tmp = cur->size - size - sizeof(t_block);
-	cur = (void*)cur + size + sizeof(t_block);
-	cur->use = 0;
-	cur->size = size_tmp;
-	cur = (void*)cur - size - sizeof(t_block);
-	cur->size = size;
-	cur->use = 1;
-	return ((void *)cur + sizeof(t_block));
+	
 }
+
+
+
+
+
+
+
+
 
 void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 {
@@ -40,9 +39,17 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	cur_page = *b_page;
 	while (1)
 	{
-		cur = find_place(cur_page, size_m, size);
-		if ((void*)cur >= (void *)cur_page + size_m ||
-				(void*)cur_page + size_m - (void *)cur < size + sizeof(t_block))
+		cur = (void *)cur_page + sizeof(t_page);
+		search_place;
+		while (1)
+		{
+			if ((void*)cur >= (void *)cur_page + size_m || (void*)cur_page + size_m - (void *)cur <= size + sizeof(t_block))
+				break ; // je sort du block
+			if (!cur->use && (!cur->size || cur->size == size || size + sizeof(t_block) + 1 < cur->size))
+				break ; // le block est free et je peux y placer un block
+			cur = (void*)cur + sizeof(t_block) + cur->size;
+		} // trouver le prochain block vide
+		if ((void*)cur >= (void *)cur_page + size_m || (void*)cur_page + size_m - (void *)cur < size + sizeof(t_block))
 		{
 			if (!cur_page->next)
 				cur_page->next = mmap(NULL, size_m, PROT_READ | PROT_WRITE,
@@ -50,10 +57,30 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 			cur_page = cur_page->next;
 			continue ;
 		}
-		else if (size + sizeof(t_block) + 1 <= cur->size)
-			return place_2_blocks(cur, size);
-		cur->use = 1;
-		cur->size = size;
+		else if (size <= cur->size)
+		{
+			if (size == cur->size)
+			{
+				cur->use = 1;
+				return ((void *)cur + sizeof(t_block));
+			}
+			else if (size + sizeof(t_block) + 1 <= cur->size)
+			{
+				int size_tmp = cur->size - size - sizeof(t_block);
+
+			 	cur = (void*)cur + size + sizeof(t_block);
+				cur->use = 0;
+				cur->size = size_tmp;
+				cur = (void*)cur - size - sizeof(t_block);
+				cur->size = size;
+				cur->use = 1;
+			}
+		}
+		else
+		{
+			cur->use = 1;
+			cur->size = size;
+		}
 		return ((void *)cur + sizeof(t_block));
 	}
 }
