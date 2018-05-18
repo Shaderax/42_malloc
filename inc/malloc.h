@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/16 16:27:32 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/18 19:43:41 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 
 #define TINY_MAP	150	* PAGE_SIZE
 #define SMALL_MAP	400	* PAGE_SIZE
+
+#define PROT_MMAP	PROT_READ | PROT_WRITE
+#define FLAG_MMAP	MAP_ANON | MAP_PRIVATE
 
 typedef struct s_block	t_block;
 typedef struct s_page	t_page;
@@ -56,14 +59,17 @@ struct 	s_maloc
 
 extern t_maloc			g_maloc;
 
-void	*ft_malloc(size_t size);
+void	*malloc(size_t size);
+void	*realloc(void *ptr, size_t size);
+void	*calloc(size_t count, size_t size);
+void	free(void	*ptr);
+
 void	show_alloc();
-void	ft_free(void	*ptr);
-void	*ft_realloc(void *ptr, size_t size);
 void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev, int del);
 
 void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev);
 void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr);
 void	*find_place(t_page *cur_page, size_t size_m, size_t size);
+void	*find_page_large(void *ptr, t_page_large **prev_page);
 
 #endif

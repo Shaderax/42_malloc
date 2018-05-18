@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calloc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/18 16:03:14 by nrouzeva          #+#    #+#             */
+/*   Updated: 2018/05/18 18:17:22 by nrouzeva         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	*calloc(size_t count, size_t size)
 {
 	void	*ret;
 
-	ret = ft_malloc(count * size);
+	ret = malloc(count * size);
 	if (!ret)
 		return (NULL);
 	ft_bzero(ret, count * size);
-	reuturn (ret);
+	return (ret);
 }

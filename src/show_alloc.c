@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   show_alloc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/18 16:42:54 by nrouzeva          #+#    #+#             */
+/*   Updated: 2018/05/18 16:44:15 by nrouzeva         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 #include <stdio.h>
 
 size_t	show(t_page *begin, size_t size_m)
 {
-	t_page *cur_page;
+	t_page	*cur_page;
 	t_block	*cur;
-	size_t tt;
+	size_t	tt;
 
 	tt = 0;
 	cur_page = begin;
@@ -27,14 +39,14 @@ size_t	show(t_page *begin, size_t size_m)
 //		printf("Size : %d, Use : %d\n", cur->size, (cur->use & (1 << 1)) ? 1 : 0);
 		cur = (void*)(cur) + sizeof(t_block) + cur->size;
 	}
-	return tt;
+	return (tt);
 }
 
 size_t	show_large(t_page_large *begin)
 {
-	t_page_large *cur_page;
-	size_t tt;
-	
+	t_page_large	*cur_page;
+	size_t			tt;
+
 	tt = 0;
 	cur_page = begin;
 	while (cur_page)
@@ -46,7 +58,7 @@ size_t	show_large(t_page_large *begin)
 	return (tt);
 }
 
-void	show_alloc()
+void	show_alloc(void)
 {
 	size_t tt;
 

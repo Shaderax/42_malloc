@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 18:29:49 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/16 20:32:05 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/18 19:46:06 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,24 @@ int		find_and_free_alloc_large(void *ptr)
 	t_page_large *cur_page;
 	t_page_large *prev_page;
 
-	cur_page = g_maloc.large;
-	while (1)
+	cur_page = NULL;
+	if ((cur_page = find_page_large(ptr, &prev_page)))
 	{
-		prev_page = cur_page;
-		if (ptr < (void*)(cur_page) ||
-			   	ptr > (void*)(cur_page) + cur_page->size + sizeof(t_page_large))
-		{
-			if (cur_page->next)
-				cur_page = cur_page->next;
-			else
-				return 0;
-		}
-		if ((void*)cur_page + sizeof(t_page_large) == ptr)
-		{
-			if (prev_page != cur_page)
-				prev_page->next = cur_page->next;
-			else
-				g_maloc.large = NULL;
-			munmap(cur_page, cur_page->size);
-			return (1);
-		}
+		if (prev_page != cur_page)
+			prev_page->next = cur_page->next;
+		else
+			g_maloc.large = NULL;
+		munmap(cur_page, cur_page->size);
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
 void	*find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 {
-	t_block 	*cur;
-	t_page 		*cur_page;
-	t_page 		*prev;
+	t_block		*cur;
+	t_page		*cur_page;
+	t_page		*prev;
 
 	cur_page = begin;
 	if ((cur_page = find_page(cur_page, size_m, ptr, &prev)))
@@ -59,18 +47,17 @@ void	*find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 			return (cur);
 		}
 	}
-	return NULL;
+	return (NULL);
 }
 
-void	ft_free(void *ptr)
+void	free(void *ptr)
 {
-	t_block *cur;
-
 	if (!ptr)
 		return ;
 	if (g_maloc.tiny && find_and_free_alloc(g_maloc.tiny, TINY_MAP, ptr))
 		;
-	else if (g_maloc.small && find_and_free_alloc(g_maloc.small, SMALL_MAP, ptr))
+	else if (g_maloc.small &&
+		find_and_free_alloc(g_maloc.small, SMALL_MAP, ptr))
 		;
 	else if (g_maloc.large && find_and_free_alloc_large(ptr))
 		;

@@ -6,11 +6,35 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 01:02:02 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/16 20:31:31 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/18 20:46:51 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+
+void	*find_page_large(void *ptr, t_page_large **prev_page)
+{
+	t_page_large *cur_page;
+
+	cur_page = g_maloc.large;
+	*prev_page = cur_page;
+	while (1)
+	{
+		if (ptr < (void*)(cur_page) ||
+			ptr > (void*)(cur_page) + cur_page->size + sizeof(t_page_large))
+		{
+			*prev_page = cur_page;
+			if (cur_page->next)
+				cur_page = cur_page->next;
+			else
+				return (NULL);
+			continue ;
+		}
+		if ((void*)cur_page + sizeof(t_page_large) == ptr)
+			return (cur_page);
+	}
+	return (NULL);
+}
 
 void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev)
 {
@@ -21,7 +45,7 @@ void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev)
 			break ;
 		(*prev) = cur_page;
 		cur_page = cur_page->next;
-		if (cur_page == NULL)
+		if (!cur_page)
 			return (NULL);
 	}
 	return (cur_page);
@@ -29,7 +53,7 @@ void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev)
 
 void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr)
 {
-	t_block 	*cur;
+	t_block *cur;
 
 	cur = (void*)cur_page + sizeof(t_page);
 	while (1)
@@ -53,9 +77,12 @@ void	*find_place(t_page *cur_page, size_t size_m, size_t size)
 	cur = (void *)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if ((void*)cur >= (void *)cur_page + size_m || (void*)cur_page + size_m - (void *)cur <= size + sizeof(t_block))
+		if ((void*)cur >= (void *)cur_page + size_m ||
+			(unsigned long)((void*)cur_page + size_m - (void *)cur) <
+				size + sizeof(t_block))
 			break ;
-		if (!cur->use && (!cur->size || cur->size == size || size + sizeof(t_block) + 1 < cur->size))
+		if (!cur->use && (!cur->size || cur->size == size ||
+			size + sizeof(t_block) + 1 < cur->size))
 			break ;
 		cur = (void*)cur + sizeof(t_block) + cur->size;
 	}
