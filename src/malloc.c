@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/18 20:30:18 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 07:57:01 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	*alloc_large(size_t size)
 
 	if (!g_maloc.large)
 	{
-		g_maloc.large = mmap(NULL, size, PROT_MMAP,
+		g_maloc.large = mmap(NULL, size + sizeof(t_page_large), PROT_MMAP,
 			FLAG_MMAP, -1, 0);
 		cur_page = g_maloc.large;
 	}
@@ -75,7 +75,7 @@ void	*alloc_large(size_t size)
 		while (cur_page->next)
 			cur_page = cur_page->next;
 		if (!cur_page->next)
-			cur_page->next = mmap(NULL, size, PROT_MMAP,
+			cur_page->next = mmap(NULL, size + sizeof(t_page_large), PROT_MMAP,
 				FLAG_MMAP, -1, 0);
 		cur_page = cur_page->next;
 	}
@@ -85,7 +85,6 @@ void	*alloc_large(size_t size)
 
 void	*malloc(size_t size)
 {
-	while (1);
 	if (size <= 0)
 		return (NULL);
 	if (size <= MAX_TINY)
@@ -93,6 +92,6 @@ void	*malloc(size_t size)
 	else if (size <= MAX_SMALL)
 		return (alloc_tiny_small(size, SMALL_MAP, &g_maloc.small));
 	else
-		alloc_large(size);
+		return (alloc_large(size));
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 18:29:49 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/18 19:46:06 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 07:57:28 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ int		find_and_free_alloc_large(void *ptr)
 	cur_page = NULL;
 	if ((cur_page = find_page_large(ptr, &prev_page)))
 	{
-		if (prev_page != cur_page)
-			prev_page->next = cur_page->next;
+		if (cur_page == g_maloc.large)
+			g_maloc.large = cur_page->next;
 		else
-			g_maloc.large = NULL;
-		munmap(cur_page, cur_page->size);
+			prev_page->next = cur_page->next;
+		munmap(cur_page, cur_page->size + sizeof(t_page_large));
 		return (1);
 	}
 	return (0);
 }
 
-void	*find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
+int		find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 {
 	t_block		*cur;
 	t_page		*cur_page;
@@ -44,10 +44,10 @@ void	*find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 		{
 			cur->use = 0;
 			defrag_mem(cur_page, size_m, prev, 1);
-			return (cur);
+			return (1);
 		}
 	}
-	return (NULL);
+	return (0);
 }
 
 void	free(void *ptr)
@@ -61,7 +61,7 @@ void	free(void *ptr)
 		;
 	else if (g_maloc.large && find_and_free_alloc_large(ptr))
 		;
-	else
-		printf("PAS TROUVE\n");
+//	else
+//		printf("PAS TROUVE \n");
 	return ;
 }

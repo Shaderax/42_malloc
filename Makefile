@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/18 20:33:33 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/20 07:56:24 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = libft_malloc_$(HOSTTYPE).so
+NAME = PROGRAM_MALLOC #libft_malloc_$(HOSTTYPE).so
 
 SRC_PATH = src
 OBJ_PATH = obj
@@ -34,7 +34,7 @@ SRC_NAME = malloc.c \
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = gcc -g
-CFLAGS = -Wextra -Wall -Werror -g #-fsanitize=address -fsanitize=undefined
+CFLAGS = #-Wextra -Wall -Werror -g #-fsanitize=address -fsanitize=undefined
 LDFLAGS = -L$(LFT_PATH)
 LDLIBS = -lft
 

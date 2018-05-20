@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 21:23:23 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/18 20:50:08 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 07:55:17 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		to_defrag(t_page *cur_page, t_block *cur, size_t size_m)
 {
 	t_block	*cur_p;
 
-	if ((void*)cur + sizeof(t_block) + cur->size <= (void*)cur_page + size_m)
+	if ((void*)cur + sizeof(t_block) + cur->size <= (void*)cur_page + size_m - sizeof(t_block) - 1) // SEG
 	{
 		cur_p = (void*)cur + sizeof(t_block) + cur->size;
 		if (!cur_p->use && cur_p->size)
@@ -58,7 +58,7 @@ void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev, int del)
 	cur = (void*)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if (!cur->size)
+		if ((void*)cur >= (void*)cur_page + size_m || !cur->size)
 			break ;
 		if (cur->use)
 			used++;

@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 01:02:02 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/18 20:46:51 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 06:53:54 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	*find_page_large(void *ptr, t_page_large **prev_page)
 		}
 		if ((void*)cur_page + sizeof(t_page_large) == ptr)
 			return (cur_page);
+		else
+			return (NULL);
 	}
 	return (NULL);
 }
@@ -82,7 +84,7 @@ void	*find_place(t_page *cur_page, size_t size_m, size_t size)
 				size + sizeof(t_block))
 			break ;
 		if (!cur->use && (!cur->size || cur->size == size ||
-			size + sizeof(t_block) + 1 < cur->size))
+			size + sizeof(t_block) + 1 <= cur->size))
 			break ;
 		cur = (void*)cur + sizeof(t_block) + cur->size;
 	}
