@@ -31,6 +31,5 @@ void	*ft_calloc(size_t count, size_t size)
 	ret = ft_malloc(count * size);
 	if (!ret)
 		return (NULL);
-	ft_memset(ret, 0, ss);
-	return (ret);
+	return (ft_memset(ret, 0, ss));
 }
