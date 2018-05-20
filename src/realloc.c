@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 07:56:48 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 20:13:52 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*search_and_copy_large(void	*ptr, size_t size_r)
 
 	if ((cur_page = find_page_large(ptr, &prev)))
 	{
-		ret = malloc(size_r);
+		ret = ft_malloc(size_r);
 		if (!ret)
 			return (NULL);
 		ft_memcpy((void*)ret, (void*)cur_page + sizeof(t_page_large),
@@ -47,7 +47,7 @@ void	*search_and_copy(t_page *begin, size_t size_m, void *ptr, size_t size_r)
 	{
 		if ((cur = find_ptr(cur_page, size_m, ptr)))
 		{
-			ret = malloc(size_r);
+			ret = ft_malloc(size_r);
 			cur->use = 0;
 			ft_memcpy(ret, (void*)cur + sizeof(t_block),
 				size_r <= cur->size ? size_r : cur->size);
@@ -58,8 +58,12 @@ void	*search_and_copy(t_page *begin, size_t size_m, void *ptr, size_t size_r)
 	return (NULL);
 }
 
-void	*realloc(void *ptr, size_t size)
+void	*ft_realloc(void *ptr, size_t size)
 {
+	ft_putstr("REALLOC : ");
+	ft_putnbr(size);
+	ft_putstr("\n");
+//	printf("REALLOC, %zu, %p\n", size, ptr);
 	void *ret;
 
 	if (!ptr || size <= 0)

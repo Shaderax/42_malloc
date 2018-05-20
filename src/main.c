@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:30:37 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 07:40:08 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 21:06:35 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ int main(int argc, char **argv)
 	while (++index < rande)
 		ft_free(large[(int)(rand() / (double)RAND_MAX * (LARGE_MALLOCED - 1))]);
 //	show_alloc();
+	index = -1;
+	rande = (int)(rand() / (double)RAND_MAX * (LARGE_MALLOCED - 1));
+	while (++index < rande)
+		large[index] = ft_realloc(large[index], (int)(rand() / (double)RAND_MAX * (LARGE_MALLOCED - 1)));
 
 
 

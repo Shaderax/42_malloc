@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 07:57:01 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 20:14:04 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,12 @@ void	*alloc_large(size_t size)
 	return ((void*)cur_page + sizeof(t_page_large));
 }
 
-void	*malloc(size_t size)
+void	*ft_malloc(size_t size)
 {
+	ft_putstr("MALLOC : ");
+	ft_putnbr(size);
+	ft_putstr("\n");
+//	printf("MALLOC, %zu\n", size);
 	if (size <= 0)
 		return (NULL);
 	if (size <= MAX_TINY)

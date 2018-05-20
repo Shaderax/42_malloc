@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/20 07:56:24 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/20 21:03:19 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC_NAME = malloc.c \
 		   defrag_mem.c \
 		   realloc.c \
 		   alloc_finder.c \
-		   calloc.c
+		   main.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -52,12 +52,12 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LFT_PATH)
 	@echo "$(GREEN)[✓]$(NC) Library built"
-	@$(CC) $^ -shared -o $@ $(LDFLAGS) $(LDLIBS) #-shared
+	@$(CC) $^ -o $@ $(LDFLAGS) $(LDLIBS) #-shared
 	@ln -sF $(NAME) $(LINK_NAME)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	@$(CC) $(CFLAGS) -o $@ -c $< -I$(INC_PATH) $(INC_LFT_PATH) 
+	@$(CC) $(CFLAGS) -c $< -o $@ -I$(INC_PATH) $(INC_LFT_PATH) 
 	@echo "$(GREEN)[✓]$(NC) Source compiled : $<"
 
 clean:
