@@ -6,14 +6,12 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:30:37 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 06:03:58 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:35:37 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "./inc/malloc.h"
 
 #define M (1024 * 1024)
 
@@ -29,17 +27,18 @@ int main(int argc, char **argv)
 
 	i = 0;
 	/* FIRST TEST */
-		while (i < 1024)
-			i++;
-		return (0);
+//		while (i < 1024)
+//			i++;
 
 	/* SECOND TEST */
-//		while (i < 0)
-//		{
-//			addr = (char *)malloc(1024);
-//			addr[0] = 42;
-//			i++;
-//		}
+//	while (i < 1024)
+//	{
+//		addr = (char *)malloc(1024);
+////		addr = (char *)calloc(64, 1);
+//		addr[0] = 42;
+//		i++;
+//	}
+//	return (0);
 	/* TEST 3 */
 //	char *addr1;
 //	char *addr3;
@@ -67,18 +66,18 @@ int main(int argc, char **argv)
 //	return (0);
 
 	/* TEST ERROR */
-//	addr = ft_malloc(16);
-//	ft_free(NULL);
-//	ft_free((void *)addr + 5);
-//	if (ft_realloc((void *)addr + 5, 10) == NULL)
+//	addr = malloc(16);
+//	free(NULL);
+//	free((void *)addr + 5);
+//	if (realloc((void *)addr + 5, 10) == NULL)
 //		print("Bonjours\n");
 
 	/* SHOW_ALLOC */
-//	ft_malloc(1024);
-//	ft_malloc(1024 * 32);
-//	ft_malloc(1024 * 1024);
-//	ft_malloc(1024 * 1024 * 16);
-//	ft_malloc(1024 * 1024 * 128);
+//	malloc(1024);
+//	malloc(1024 * 32);
+//	malloc(1024 * 1024);
+//	malloc(1024 * 1024 * 16);
+//	malloc(1024 * 1024 * 128);
 //	show_alloc();
 //	return (0);
 

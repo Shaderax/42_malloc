@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 20:13:17 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/21 17:25:21 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ struct 	s_maloc
 
 extern t_maloc			g_maloc;
 
-void	*ft_malloc(size_t size);
-void	*ft_realloc(void *ptr, size_t size);
-void	*ft_calloc(size_t count, size_t size);
-void	ft_free(void	*ptr);
+void	*malloc(size_t size);
+void	*realloc(void *ptr, size_t size);
+void	*calloc(size_t count, size_t size);
+void	free(void	*ptr);
 
 void	show_alloc();
 void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev, int del);

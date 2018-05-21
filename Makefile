@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/20 21:03:19 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/21 17:52:16 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = PROGRAM_MALLOC #libft_malloc_$(HOSTTYPE).so
+NAME = libft_malloc_$(HOSTTYPE).so
 
 SRC_PATH = src
 OBJ_PATH = obj
@@ -22,19 +22,19 @@ INC_PATH = inc
 LFT_PATH = libft
 INC_LFT_PATH = -I ./libft/libft/includes/ -I ./libft/printf/
 LINK_NAME = libft_malloc.so
+#		   calloc.c 
 
 SRC_NAME = malloc.c \
-		   show_alloc.c \
 		   free.c \
 		   defrag_mem.c \
 		   realloc.c \
 		   alloc_finder.c \
-		   main.c
+		   show_alloc.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = gcc -g
-CFLAGS = #-Wextra -Wall -Werror -g #-fsanitize=address -fsanitize=undefined
+CFLAGS = -Wextra -Wall -Werror -g #-fsanitize=address -fsanitize=undefined
 LDFLAGS = -L$(LFT_PATH)
 LDLIBS = -lft
 
@@ -52,7 +52,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LFT_PATH)
 	@echo "$(GREEN)[✓]$(NC) Library built"
-	@$(CC) $^ -o $@ $(LDFLAGS) $(LDLIBS) #-shared
+	@$(CC) $^ -shared -o $@ $(LDFLAGS) $(LDLIBS) #-shared
 	@ln -sF $(NAME) $(LINK_NAME)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
