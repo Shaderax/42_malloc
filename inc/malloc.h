@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/21 17:25:21 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:54:28 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 #include "../libft/libft/includes/libft.h"
 #include <sys/mman.h>
+
+#define OFFSET		4
+#define MIN_PAGE	(void*)cur_page + OFFSET + sizeof(t_page)
+#define MAX_PAGE	(void*)cur_page + size_m
 
 #define MAX_TINY	496
 #define MAX_SMALL	15359
@@ -54,7 +58,6 @@ struct 	s_maloc
 	t_page *tiny;
 	t_page *small;
 	t_page_large *large;
-	char	utab[8];
 };
 
 extern t_maloc			g_maloc;

@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/21 17:52:16 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/22 17:11:19 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,19 +22,18 @@ INC_PATH = inc
 LFT_PATH = libft
 INC_LFT_PATH = -I ./libft/libft/includes/ -I ./libft/printf/
 LINK_NAME = libft_malloc.so
-#		   calloc.c 
 
 SRC_NAME = malloc.c \
 		   free.c \
 		   defrag_mem.c \
 		   realloc.c \
 		   alloc_finder.c \
-		   show_alloc.c
+		   calloc.c 
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = gcc -g
-CFLAGS = -Wextra -Wall -Werror -g #-fsanitize=address -fsanitize=undefined
+CFLAGS = -Wextra -Wall -Werror -g#-fsanitize=address -fsanitize=undefined
 LDFLAGS = -L$(LFT_PATH)
 LDLIBS = -lft
 
@@ -55,7 +54,7 @@ $(NAME): $(OBJ)
 	@$(CC) $^ -shared -o $@ $(LDFLAGS) $(LDLIBS) #-shared
 	@ln -sF $(NAME) $(LINK_NAME)
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c Makefile
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	@$(CC) $(CFLAGS) -c $< -o $@ -I$(INC_PATH) $(INC_LFT_PATH) 
 	@echo "$(GREEN)[✓]$(NC) Source compiled : $<"

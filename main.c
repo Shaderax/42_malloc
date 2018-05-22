@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:30:37 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/21 17:35:37 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/22 10:26:52 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int main(int argc, char **argv)
 
 	i = 0;
 	/* FIRST TEST */
-//		while (i < 1024)
-//			i++;
+		while (i < 1024)
+			i++;
+		return (0);
 
 	/* SECOND TEST */
 //	while (i < 1024)

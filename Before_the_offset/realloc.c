@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:10:18 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/22 11:47:42 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	*search_and_copy_large(void	*ptr, size_t size_r)
 
 	if ((cur_page = find_page_large(ptr, &prev)))
 	{
-		if (size_r == cur_page->size)
-			return (ptr);
 		ret = malloc(size_r);
 		if (!ret)
 			return (NULL);
@@ -49,8 +47,6 @@ void	*search_and_copy(t_page *begin, size_t size_m, void *ptr, size_t size_r)
 	{
 		if ((cur = find_ptr(cur_page, size_m, ptr)))
 		{
-			if (size_r == cur->size)
-				return (ptr);
 			ret = malloc(size_r);
 			cur->use = 0;
 			ft_memcpy(ret, (void*)cur + sizeof(t_block),
@@ -64,18 +60,13 @@ void	*search_and_copy(t_page *begin, size_t size_m, void *ptr, size_t size_r)
 
 void	*realloc(void *ptr, size_t size)
 {
-//	ft_putstr("REALLOC : ");
-//	ft_putnbr(size);
-//	ft_putstr("\n");
+	ft_putstr("REALLOC : ");
+	ft_putnbr(size);
+	ft_putstr("\n");
 	void *ret;
 
-//	if (size <= 0 && ptr)
-//	{
-//		free(ptr);
-//		return (NULL);
-//	}
 	if (size <= 0)
-		return (NULL);
+		size = 1;
 	if (!ptr)
 		return (malloc(size));
 	if (g_maloc.tiny &&
@@ -86,6 +77,5 @@ void	*realloc(void *ptr, size_t size)
 		return (ret);
 	else if (g_maloc.large && (ret = search_and_copy_large(ptr, size)))
 		return (ret);
-//	free(ptr);
 	return (NULL);
 }

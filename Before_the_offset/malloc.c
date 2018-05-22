@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:12:18 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/22 14:37:43 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	while (1)
 	{
 		cur = find_place(cur_page, size_m, size);
-		if ((void*)cur >= MAX_PAGE ||
-				(unsigned long)(MAX_PAGE - (void *)cur) <
+		if ((void*)cur >= (void *)cur_page + size_m ||
+				(unsigned long)((void*)cur_page + size_m - (void *)cur) <
 					size + sizeof(t_block))
 		{
 			if (!cur_page->next)
@@ -86,26 +86,30 @@ void	*alloc_large(size_t size)
 void	*malloc(size_t size)
 {
 	void*	ret;
-//	ft_putstr("MALLOC : ");
-//	ft_putnbr(size);
-//	ft_putstr("\n");
+	ft_putstr("MALLOC : ");
+	ft_putnbr(size);
+	ft_putstr("\n");
 	if (size <= 0)
 		return (NULL);
-	size += (8 - (size + sizeof(t_block)) % 8);
-//	ft_putnbr(size);
-//	ft_putstr("\n");
+	size = size + (size - sizeof(t_block) % 8);
+	ft_putnbr(size);
+	ft_putnbr(sizeof(t_page));
+	ft_putnbr(sizeof(t_block));
 	if (size <= MAX_TINY)
 	{
+		ft_putstr("end\n");
 		ret = (void*)alloc_tiny_small(size, TINY_MAP, &g_maloc.tiny);
 		return ((void*)ret);// + (long long)ret % 8);
 	}
 	else if (size <= MAX_SMALL)
 	{
+		ft_putstr("end\n");
 		ret = (void*)alloc_tiny_small(size, SMALL_MAP, &g_maloc.small);
 		return ((void*)ret);// + (long long)ret % 8);
 	}
 	else
 	{
+		ft_putstr("end\n");
 		ret = (void*)alloc_large(size);
 		return ((void*)ret);// + (long long)ret % 8);
 	}

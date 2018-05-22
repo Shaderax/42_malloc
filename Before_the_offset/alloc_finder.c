@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 01:02:02 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 14:54:49 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 06:53:54 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*find_page(t_page *cur_page, size_t size_m, void *ptr, t_page **prev)
 	(*prev) = cur_page;
 	while (1)
 	{
-		if (ptr >= (void*)(cur_page) && ptr <= MAX_PAGE)
+		if (ptr >= (void*)(cur_page) && ptr <= (void*)(cur_page) + size_m)
 			break ;
 		(*prev) = cur_page;
 		cur_page = cur_page->next;
@@ -57,10 +57,10 @@ void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr)
 {
 	t_block *cur;
 
-	cur = MIN_PAGE;
+	cur = (void*)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if ((void*)cur >= MAX_PAGE || !cur->size)
+		if ((void*)cur >= (void*)cur_page + size_m || !cur->size)
 			return (NULL);
 		if ((void*)cur + sizeof(t_block) == ptr)
 		{
@@ -76,11 +76,11 @@ void	*find_place(t_page *cur_page, size_t size_m, size_t size)
 {
 	t_block *cur;
 
-	cur = MIN_PAGE;
+	cur = (void *)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if ((void*)cur >= MAX_PAGE ||
-			(unsigned long)(MAX_PAGE - (void *)cur) <
+		if ((void*)cur >= (void *)cur_page + size_m ||
+			(unsigned long)((void*)cur_page + size_m - (void *)cur) <
 				size + sizeof(t_block))
 			break ;
 		if (!cur->use && (!cur->size || cur->size == size ||

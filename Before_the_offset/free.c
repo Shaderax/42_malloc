@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 18:29:49 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:06:01 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/22 13:18:19 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ int		find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 
 void	free(void *ptr)
 {
-//	ft_putstr("FREE : ");
+	ft_putstr("FREE : ");
 	if (!ptr)
+	{
+		ft_putnbr((long long)ptr);
 		return ;
+	}
 	if (g_maloc.tiny && find_and_free_alloc(g_maloc.tiny, TINY_MAP, ptr))
 		;
 	else if (g_maloc.small &&
@@ -62,8 +65,8 @@ void	free(void *ptr)
 		;
 	else if (g_maloc.large && find_and_free_alloc_large(ptr))
 		;
-//	else
-//		write(1, " : PAS TROUVE", 14);
-//	write(1, " END \n", 1);
+	else
+		write(1, " : PAS TROUVE", 14);
+	write(1, " END \n", 1);
 	return ;
 }

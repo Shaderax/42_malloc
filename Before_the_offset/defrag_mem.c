@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 21:23:23 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 14:56:39 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/20 07:55:17 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	defrag_mem(t_page *cur_page, size_t size_m, t_page *prev, int del)
 
 	del = 0;
 	used = 0;
-	cur = MIN_PAGE;
+	cur = (void*)cur_page + sizeof(t_page);
 	while (1)
 	{
-		if ((void*)cur >= MAX_PAGE || !cur->size)
+		if ((void*)cur >= (void*)cur_page + size_m || !cur->size)
 			break ;
 		if (cur->use)
 			used++;
