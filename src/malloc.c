@@ -15,6 +15,7 @@
 t_maloc		g_maloc = {NULL, NULL, NULL};
 
 // BZERO LA MEM
+/* NEED TO CHECK PLACE 2 BLOCK */
 
 void	*place_2_blocks(t_block *cur, size_t size)
 {
