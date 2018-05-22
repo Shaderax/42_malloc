@@ -43,6 +43,7 @@ int		find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 		if ((cur = find_ptr(cur_page, size_m, ptr)))
 		{
 			cur->use = 0;
+			ft_bzero((void*)cur + sizeof(t_block), cur->size);
 			defrag_mem(cur_page, size_m, prev, 1);
 			return (1);
 		}
