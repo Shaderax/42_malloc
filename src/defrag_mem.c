@@ -12,6 +12,8 @@
 
 #include "malloc.h"
 
+// CHECK WITHOUT DEF
+
 void	free_map(t_page *cur_page, t_page *prev, size_t size_m)
 {
 	if (prev != cur_page)
@@ -30,12 +32,13 @@ int		to_defrag(t_page *cur_page, t_block *cur, size_t size_m)
 {
 	t_block	*cur_p;
 
-	if ((void*)cur + sizeof(t_block) + cur->size <= (void*)cur_page + size_m - sizeof(t_block) - 1) // SEG
+	if ((void*)cur + sizeof(t_block) + cur->size <= MAX_PAGE - sizeof(t_block) - 1)
 	{
 		cur_p = (void*)cur + sizeof(t_block) + cur->size;
 		if (!cur_p->use && cur_p->size)
 		{
 			cur->size += cur_p->size + sizeof(t_block);
+			cur_p->size = 0;
 			return (1);
 		}
 		else if (!cur_p->use && !cur_p->size)
