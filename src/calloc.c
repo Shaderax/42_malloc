@@ -30,7 +30,7 @@ void	*calloc(size_t count, size_t size)
 	if (!(ret = malloc(len)))
 		return (NULL);
 	len += (8 - (len + sizeof(t_block)) % 8);
-//	ft_bzero(ret, len);
+	ft_bzero(ret, len);
 
 //	ft_putstr("END\n");
 	return ((void*)ret);
