@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
 int		find_and_free_alloc_large(void *ptr)
 {
