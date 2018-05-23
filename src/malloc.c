@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:12:18 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/23 18:02:24 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_maloc		g_maloc = {NULL, NULL, NULL};
 
-// BZERO LA MEM
 /* NEED TO CHECK PLACE 2 BLOCK */
 
 void	*place_2_blocks(t_block *cur, size_t size)
@@ -91,24 +90,27 @@ void	*malloc(size_t size)
 //	ft_putnbr(size);
 //	ft_putstr("\n");
 	if (size <= 0)
-		return (NULL);
+		size = 1;
 	size += (8 - (size + sizeof(t_block)) % 8);
 //	ft_putnbr(size);
 //	ft_putstr("\n");
 	if (size <= MAX_TINY)
 	{
+//		ft_putstr("END\n");
 		ret = (void*)alloc_tiny_small(size, TINY_MAP, &g_maloc.tiny);
-		return ((void*)ret);// + (long long)ret % 8);
+		return ((void*)ret);
 	}
 	else if (size <= MAX_SMALL)
 	{
+//		ft_putstr("END\n");
 		ret = (void*)alloc_tiny_small(size, SMALL_MAP, &g_maloc.small);
-		return ((void*)ret);// + (long long)ret % 8);
+		return ((void*)ret);
 	}
 	else
 	{
+//		ft_putstr("END\n");
 		ret = (void*)alloc_large(size);
-		return ((void*)ret);// + (long long)ret % 8);
+		return ((void*)ret);
 	}
 	return (NULL);
 }

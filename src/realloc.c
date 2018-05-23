@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:10:18 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/23 18:02:39 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,14 @@ void	*realloc(void *ptr, size_t size)
 //	ft_putnbr(size);
 //	ft_putstr("\n");
 	void *ret;
-
-//	if (size <= 0 && ptr)
-//	{
-//		free(ptr);
-//		return (NULL);
-//	}
-	if (size <= 0)
+	if (size <= 0 && ptr)
+	{
+		free(ptr);
 		return (NULL);
+	}
 	if (!ptr)
 		return (malloc(size));
+	size += (8 - (size + sizeof(t_block)) % 8);
 	if (g_maloc.tiny &&
 			(ret = search_and_copy(g_maloc.tiny, TINY_MAP, ptr, size)))
 		return (ret);
@@ -86,6 +84,7 @@ void	*realloc(void *ptr, size_t size)
 		return (ret);
 	else if (g_maloc.large && (ret = search_and_copy_large(ptr, size)))
 		return (ret);
-//	free(ptr);
-	return (NULL);
+	else
+		free(ptr);
+	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:03:14 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 17:12:05 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/23 18:01:49 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ void	*calloc(size_t count, size_t size)
 	void	*ret;
 	size_t	len;
 
-	if (!count || !size)
-		return (NULL);
+//	if (count <= 0 || size <= 0)
+//		return (NULL);
 	len = count * size;
 	if (!(ret = malloc(len)))
 		return (NULL);
+	if (len <= 0)
+		len = 1;
 	len += (8 - (len + sizeof(t_block)) % 8);
 	ft_bzero(ret, len);
 
