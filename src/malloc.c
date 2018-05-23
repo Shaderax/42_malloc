@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 18:02:24 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/23 18:10:22 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,26 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 					size + sizeof(t_block))
 		{
 			if (!cur_page->next)
+			{
+				if (size_m == (size_t)TINY_MAP)
+				{
+					cur_page = g_maloc.tiny;
+					g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
+					FLAG_MMAP, -1, 0); 
+					g_maloc.tiny->next = cur_page;
+					continue ;
+				}
+				else
+				{
+					cur_page = g_maloc.small;
+					g_maloc.small = mmap(NULL, size_m, PROT_MMAP,
+					FLAG_MMAP, -1, 0); 
+					g_maloc.small->next = cur_page;
+					continue ;
+				}
 				cur_page->next = mmap(NULL, size_m, PROT_MMAP,
 					FLAG_MMAP, -1, 0);
+			}
 			cur_page = cur_page->next;
 			continue ;
 		}
