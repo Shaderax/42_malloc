@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 18:10:22 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/24 19:50:59 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ void	*place_2_blocks(t_block *cur, size_t size)
 	return ((void *)cur + sizeof(t_block));
 }
 
+// RETOUR MMAP
+
 void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 {
 	t_block	*cur;
 	t_page	*cur_page;
+	size_t bite;
+
+bite =	(size_t)-1;
 
 	if (!(*b_page))
 		*b_page = mmap(NULL, size_m, PROT_MMAP, FLAG_MMAP, -1, 0);
@@ -63,8 +68,8 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 					g_maloc.small->next = cur_page;
 					continue ;
 				}
-				cur_page->next = mmap(NULL, size_m, PROT_MMAP,
-					FLAG_MMAP, -1, 0);
+//				cur_page->next = mmap(NULL, size_m, PROT_MMAP,
+//					FLAG_MMAP, -1, 0);
 			}
 			cur_page = cur_page->next;
 			continue ;
@@ -104,29 +109,22 @@ void	*alloc_large(size_t size)
 void	*malloc(size_t size)
 {
 	void*	ret;
-//	ft_putstr("MALLOC : ");
-//	ft_putnbr(size);
-//	ft_putstr("\n");
+
 	if (size <= 0)
 		size = 1;
-	size += (8 - (size + sizeof(t_block)) % 8);
-//	ft_putnbr(size);
-//	ft_putstr("\n");
+	size += (ALIGN - (size + sizeof(t_block)) % ALIGN);
 	if (size <= MAX_TINY)
 	{
-//		ft_putstr("END\n");
 		ret = (void*)alloc_tiny_small(size, TINY_MAP, &g_maloc.tiny);
 		return ((void*)ret);
 	}
 	else if (size <= MAX_SMALL)
 	{
-//		ft_putstr("END\n");
 		ret = (void*)alloc_tiny_small(size, SMALL_MAP, &g_maloc.small);
 		return ((void*)ret);
 	}
 	else
 	{
-//		ft_putstr("END\n");
 		ret = (void*)alloc_large(size);
 		return ((void*)ret);
 	}

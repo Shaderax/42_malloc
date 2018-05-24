@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 18:19:44 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/24 19:50:36 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	*realloc(void *ptr, size_t size)
 	}
 	if (!ptr)
 		return (malloc(size));
-	size += (8 - (size + sizeof(t_block)) % 8);
+	size += (ALIGN - (size + sizeof(t_block)) % ALIGN);
 	if (g_maloc.tiny &&
 			(ret = search_and_copy(g_maloc.tiny, TINY_MAP, ptr, size)))
 		return (ret);

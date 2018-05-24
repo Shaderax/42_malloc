@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 16:09:27 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/24 19:57:19 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <sys/mman.h>
 
 #define OFFSET		4
+#define ALIGN		16
 #define MIN_PAGE	(void*)cur_page + OFFSET + sizeof(t_page)
 #define MAX_PAGE	(void*)cur_page + size_m
 

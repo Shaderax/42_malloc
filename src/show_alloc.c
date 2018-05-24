@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:42:54 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/20 07:20:29 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/24 16:14:37 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	show_alloc(void)
 	tt = 0;
 	if (g_maloc.tiny)
 	{
+		write(1, "0x", 2);
+		ft_recursive_itoa_hexa((unsigned long long)g_maloc.tiny);
 		printf("TINY : %p\n", g_maloc.tiny);
 		tt += show(g_maloc.tiny, TINY_MAP);
 	}
