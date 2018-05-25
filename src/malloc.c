@@ -6,15 +6,13 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/24 19:50:59 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 18:06:13 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/malloc.h"
 
 t_maloc		g_maloc = {NULL, NULL, NULL};
-
-/* NEED TO CHECK PLACE 2 BLOCK */
 
 void	*place_2_blocks(t_block *cur, size_t size)
 {
@@ -30,18 +28,15 @@ void	*place_2_blocks(t_block *cur, size_t size)
 	return ((void *)cur + sizeof(t_block));
 }
 
-// RETOUR MMAP
-
 void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 {
 	t_block	*cur;
 	t_page	*cur_page;
-	size_t bite;
-
-bite =	(size_t)-1;
 
 	if (!(*b_page))
-		*b_page = mmap(NULL, size_m, PROT_MMAP, FLAG_MMAP, -1, 0);
+		if ((*b_page = mmap(NULL, size_m,
+			PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+			return (NULL);
 	cur_page = *b_page;
 	while (1)
 	{
@@ -55,21 +50,21 @@ bite =	(size_t)-1;
 				if (size_m == (size_t)TINY_MAP)
 				{
 					cur_page = g_maloc.tiny;
-					g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
-					FLAG_MMAP, -1, 0); 
+					if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
+								   	FLAG_MMAP, -1, 0)) == MAP_FAILED)
+						return (NULL);
 					g_maloc.tiny->next = cur_page;
 					continue ;
 				}
 				else
 				{
 					cur_page = g_maloc.small;
-					g_maloc.small = mmap(NULL, size_m, PROT_MMAP,
-					FLAG_MMAP, -1, 0); 
+					if ((g_maloc.small = mmap(NULL, size_m,
+						PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+						return (NULL);
 					g_maloc.small->next = cur_page;
 					continue ;
 				}
-//				cur_page->next = mmap(NULL, size_m, PROT_MMAP,
-//					FLAG_MMAP, -1, 0);
 			}
 			cur_page = cur_page->next;
 			continue ;
@@ -88,8 +83,9 @@ void	*alloc_large(size_t size)
 
 	if (!g_maloc.large)
 	{
-		g_maloc.large = mmap(NULL, size + sizeof(t_page_large), PROT_MMAP,
-			FLAG_MMAP, -1, 0);
+		if ((g_maloc.large = mmap(NULL, size + sizeof(t_page_large), PROT_MMAP,
+			FLAG_MMAP, -1, 0)) == MAP_FAILED)
+			return (NULL);
 		cur_page = g_maloc.large;
 	}
 	else
@@ -98,8 +94,9 @@ void	*alloc_large(size_t size)
 		while (cur_page->next)
 			cur_page = cur_page->next;
 		if (!cur_page->next)
-			cur_page->next = mmap(NULL, size + sizeof(t_page_large), PROT_MMAP,
-				FLAG_MMAP, -1, 0);
+			if ((cur_page->next = mmap(NULL, size + sizeof(t_page_large),
+						   	PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+				return (NULL);
 		cur_page = cur_page->next;
 	}
 	cur_page->size = size;

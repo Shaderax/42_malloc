@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 21:23:23 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 15:28:47 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 17:46:36 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@
 
 void	free_map(t_page *cur_page, t_page *prev, size_t size_m)
 {
-	if (prev != cur_page)
+	if (prev == cur_page)
+		return ;
+	else if (prev != cur_page)
 		prev->next = cur_page->next;
-	else
-	{
-		if (size_m == (size_t)TINY_MAP)
-			g_maloc.tiny = NULL;
-		else
-			g_maloc.small = NULL;
-	}
+	size_m = 0;
 	munmap(cur_page, size_m);
 }
 

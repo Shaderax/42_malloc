@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 18:29:49 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 18:01:32 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 14:33:15 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,14 @@ int		find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 
 void	free(void *ptr)
 {
-//	ft_putstr("FREE : ");
 	if (!ptr)
-	{
-//		ft_putstr("No PTR\n");
 		return ;
-	}
 	if (g_maloc.tiny && find_and_free_alloc(g_maloc.tiny, TINY_MAP, ptr))
-	{
 		;
-//		ft_putstr("TROUVE ");
-	}
 	else if (g_maloc.small &&
 		find_and_free_alloc(g_maloc.small, SMALL_MAP, ptr))
-	{
 		;
-//		ft_putstr("TROUVE ");
-	}
 	else if (g_maloc.large && find_and_free_alloc_large(ptr))
-	{
 		;
-//		ft_putstr("TROUVE ");
-	}
-//	else
-//		write(1, " : PAS TROUVE ", 14);
-//	ft_putstr("END\n");
 	return ;
 }

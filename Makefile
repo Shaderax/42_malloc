@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/24 19:46:53 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/05/25 17:59:18 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC_NAME = malloc.c \
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = gcc -g
-CFLAGS = -Wextra -Wall -Werror -g#-fsanitize=address -fsanitize=undefined
+CFLAGS = -Wextra -Wall -Werror -O2 #-fsanitize=address -fsanitize=undefined
 LDFLAGS = -L$(LFT_PATH)
 LDLIBS = -lft
 

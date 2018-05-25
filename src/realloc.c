@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/24 19:50:36 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 13:47:46 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ void	*search_and_copy(t_page *begin, size_t size_m, void *ptr, size_t size_r)
 
 void	*realloc(void *ptr, size_t size)
 {
-//	ft_putstr("REALLOC : ");
-//	ft_putnbr(size);
-//	ft_putstr("\n");
 	void *ret;
+
 	if (size <= 0 && ptr)
 	{
 		free(ptr);
@@ -84,7 +82,5 @@ void	*realloc(void *ptr, size_t size)
 		return (ret);
 	else if (g_maloc.large && (ret = search_and_copy_large(ptr, size)))
 		return (ret);
-	else
-		free(ptr);
-	return (ptr);
+	return (NULL);
 }

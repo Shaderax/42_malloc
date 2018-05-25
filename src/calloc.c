@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:03:14 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/24 19:50:47 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 15:58:28 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,5 @@ void	*calloc(size_t count, size_t size)
 		len = 1;
 	len += (ALIGN - (len + sizeof(t_block)) % ALIGN);
 	ft_bzero(ret, len);
-
 	return (ret);
 }

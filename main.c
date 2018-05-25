@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:30:37 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/22 10:26:52 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/05/25 16:38:47 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,20 @@ int main(int argc, char **argv)
 
 	i = 0;
 	/* FIRST TEST */
-		while (i < 1024)
-			i++;
-		return (0);
+//		while (i < 1024)
+//			i++;
+////	show_alloc_mem();
+//		return (0);
 
 	/* SECOND TEST */
-//	while (i < 1024)
-//	{
-//		addr = (char *)malloc(1024);
-////		addr = (char *)calloc(64, 1);
-//		addr[0] = 42;
-//		i++;
-//	}
-//	return (0);
+	while (i < 1024)
+	{
+		addr = (char *)malloc(1024);
+		addr[0] = 42;
+		i++;
+	}
+//	show_alloc_mem();
+	return (0);
 	/* TEST 3 */
 //	char *addr1;
 //	char *addr3;
@@ -79,7 +80,7 @@ int main(int argc, char **argv)
 //	malloc(1024 * 1024);
 //	malloc(1024 * 1024 * 16);
 //	malloc(1024 * 1024 * 128);
-//	show_alloc();
+//	show_alloc_mem();
 //	return (0);
 
 
