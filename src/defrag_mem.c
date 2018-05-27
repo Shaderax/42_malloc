@@ -12,8 +12,6 @@
 
 #include "malloc.h"
 
-// CHECK WITHOUT DEF
-
 void	free_map(t_page *cur_page, t_page *prev, size_t size_m)
 {
 	if (prev == cur_page)
