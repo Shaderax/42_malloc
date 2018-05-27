@@ -45,7 +45,8 @@ size_t	show(t_page *begin, size_t size_m)
 		}
 		if (cur->use || !cur->use)
 		{
-			show_block((void *)(cur) + sizeof(t_block), (void *)cur + cur->size + sizeof(t_block), cur->size);
+			show_block((void *)(cur) + sizeof(t_block),
+					   (void *)cur + cur->size + sizeof(t_block), cur->size);
 			tt += cur->size;
 		}
 		cur = (void*)(cur) + sizeof(t_block) + cur->size;
@@ -62,11 +63,25 @@ size_t	show_large(t_page_large *begin)
 	cur_page = begin;
 	while (cur_page)
 	{
-		show_block((void *)(cur_page) + sizeof(t_page_large), (void *)cur_page + cur_page->size + sizeof(t_page_large), cur_page->size);
+		show_block((void *)(cur_page) + sizeof(t_page_large),
+			(void *)cur_page + cur_page->size + sizeof(t_page_large),
+				cur_page->size);
 		tt += cur_page->size;
 		cur_page = cur_page->next;
 	}
 	return (tt);
+}
+
+void	print_alloc(char *page_name, void *ptr, int size)
+{
+	ft_putstr(page_name);
+	ft_putstr(" : 0x");
+	ft_print_addr((unsigned long long)ptr);
+	ft_putstr("\n");
+	if (size)
+		total_oct += show(ptr, size);
+	else
+		total_oct += show_large(ptr);
 }
 
 void	show_alloc_mem(void)
@@ -75,26 +90,11 @@ void	show_alloc_mem(void)
 
 	total_oct = 0;
 	if (g_maloc.tiny)
-	{
-		ft_putstr("TINY : 0x");
-		ft_print_addr((unsigned long long)g_maloc.tiny);
-		ft_putstr("\n");
-		total_oct += show(g_maloc.tiny, TINY_MAP);
-	}
+		total_oct += print_alloc("TINY", g_maloc.tiny, TINY_MAP);
 	if (g_maloc.small)
-	{
-		ft_putstr("SMALL : 0x");
-		ft_print_addr((unsigned long long)g_maloc.small);
-		ft_putstr("\n");
-		total_oct += show(g_maloc.small, SMALL_MAP);
-	}
+		total_oct += print_alloc("SMALL", g_maloc.small, SMALL_MAP);
 	if (g_maloc.large)
-	{
-		ft_putstr("LARGE : 0x");
-		ft_print_addr((unsigned long long)g_maloc.large);
-		ft_putstr("\n");
 		total_oct += show_large(g_maloc.large);
-	}
 	ft_putstr("Total : ");
 	ft_putnbr(total_oct);
 	ft_putstr(" octects\n");
