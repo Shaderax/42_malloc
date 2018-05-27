@@ -54,6 +54,7 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 								   	FLAG_MMAP, -1, 0)) == MAP_FAILED)
 						return (NULL);
 					g_maloc.tiny->next = cur_page;
+					cur_page = g_maloc.tiny;
 					continue ;
 				}
 				else
@@ -63,6 +64,7 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 						PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
 						return (NULL);
 					g_maloc.small->next = cur_page;
+					cur_page = g_maloc.small;
 					continue ;
 				}
 			}
