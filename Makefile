@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/05/25 17:59:18 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/06/11 17:22:09 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,7 @@ SRC_NAME = malloc.c \
 		   defrag_mem.c \
 		   realloc.c \
 		   alloc_finder.c \
-		   calloc.c \
-		   show_alloc.c
+		   calloc.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
