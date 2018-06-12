@@ -70,6 +70,7 @@ void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr)
 		}
 		cur = (void*)cur + sizeof(t_block) + cur->size;
 	}
+	return (NULL);
 }
 
 void	*find_place(t_page *cur_page, size_t size_m, size_t size)
