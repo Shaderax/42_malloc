@@ -62,15 +62,14 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	t_block	*cur;
 	t_page	*cur_page;
 
-	if (!(*b_page))
-		if ((*b_page = mmap(NULL, size_m,
-			PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
-			return (NULL);
+	if (!(*b_page) && (*b_page = mmap(NULL, size_m,
+		PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+		return (NULL);
 	cur_page = *b_page;
 	while (1)
 	{
 		cur = find_place(cur_page, size_m, size);
-		if ((void*)cur >= MAX_PAGE ||(unsigned long)(MAX_PAGE - (void *)cur) <
+		if ((void*)cur >= MAX_PAGE || (unsigned long)(MAX_PAGE - (void *)cur) <
 					size + sizeof(t_block))
 		{
 			cur_page = new_page(size_m, cur_page);
