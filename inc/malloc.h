@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/12 14:11:00 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/12 15:00:42 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define OFFSET		4
 # define ALIGN		16
 # define MIN_PAGE	(void*)cur_page + OFFSET + sizeof(t_page)
-# define MAX_PAGE	(void*)cur_page + size_m + sizeof(t_page)
+# define MAX_PAGE	(void*)cur_page + size_m
 
 # define MAX_TINY	992
 # define MAX_SMALL	15359
