@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/14 01:02:02 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/23 15:41:15 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/12 15:33:08 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	*find_ptr(t_page *cur_page, size_t size_m, void *ptr)
 		}
 		cur = (void*)cur + sizeof(t_block) + cur->size;
 	}
+	return (NULL);
 }
 
 void	*find_place(t_page *cur_page, size_t size_m, size_t size)

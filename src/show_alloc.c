@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:42:54 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/12 14:56:55 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/12 15:02:55 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ size_t	show(t_page *begin, size_t size_m)
 	cur = MIN_PAGE;
 	while (1)
 	{
-		if (!cur->size || (void*)cur >= (void *)(cur_page) + size_m)
+		if (!cur->size || (void*)cur >= MAX_PAGE)
 		{
 			if (!cur_page->next)
 				break ;
 			cur_page = cur_page->next;
-			cur = (void *)(cur_page) + sizeof(t_page) + OFFSET;
+			cur = MIN_PAGE;
 			continue ;
 		}
 		if (cur->use || !cur->use)
