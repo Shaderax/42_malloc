@@ -28,6 +28,35 @@ void	*place_2_blocks(t_block *cur, size_t size)
 	return ((void *)cur + sizeof(t_block));
 }
 
+void	*new_page(size_t size_m, t_page *cur_page)
+{
+	if (!cur_page->next)
+	{
+				if (size_m == (size_t)TINY_MAP)
+				{
+					cur_page = g_maloc.tiny;
+					if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
+						FLAG_MMAP, -1, 0)) == MAP_FAILED)
+						return (NULL);
+					g_maloc.tiny->next = cur_page;
+					cur_page = g_maloc.tiny;
+					return (cur_page);
+				}
+				else
+				{
+					cur_page = g_maloc.small;
+					if ((g_maloc.small = mmap(NULL, size_m,
+						PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+						return (NULL);
+					g_maloc.small->next = cur_page;
+					cur_page = g_maloc.small;
+					return (cur_page);
+				}
+	}
+	cur_page = cur_page->next;
+	return (cur_page);
+}
+
 void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 {
 	t_block	*cur;
@@ -41,35 +70,14 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 	while (1)
 	{
 		cur = find_place(cur_page, size_m, size);
-		if ((void*)cur >= MAX_PAGE ||
-				(unsigned long)(MAX_PAGE - (void *)cur) <
+		if ((void*)cur >= MAX_PAGE ||(unsigned long)(MAX_PAGE - (void *)cur) <
 					size + sizeof(t_block))
 		{
-			if (!cur_page->next)
-			{
-				if (size_m == (size_t)TINY_MAP)
-				{
-					cur_page = g_maloc.tiny;
-					if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
-						FLAG_MMAP, -1, 0)) == MAP_FAILED)
-						return (NULL);
-					g_maloc.tiny->next = cur_page;
-					cur_page = g_maloc.tiny;
-					continue ;
-				}
-				else
-				{
-					cur_page = g_maloc.small;
-					if ((g_maloc.small = mmap(NULL, size_m,
-						PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
-						return (NULL);
-					g_maloc.small->next = cur_page;
-					cur_page = g_maloc.small;
-					continue ;
-				}
-			}
-			cur_page = cur_page->next;
-			continue ;
+			cur_page = new_page(size_m, cur_page);
+			if (!(cur_page))
+				return (NULL);
+			else
+				continue ;
 		}
 		else if (size + sizeof(t_block) + 1 <= cur->size)
 			return (place_2_blocks(cur, size));
