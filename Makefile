@@ -6,7 +6,7 @@
 #    By: nrouzeva <nrouzeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 09:31:46 by nrouzeva          #+#    #+#              #
-#    Updated: 2018/06/11 17:22:09 by nrouzeva         ###   ########.fr        #
+#    Updated: 2018/06/12 11:48:36 by nrouzeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,13 @@ SRC_NAME = malloc.c \
 		   defrag_mem.c \
 		   realloc.c \
 		   alloc_finder.c \
-		   calloc.c
+		   calloc.c \
+		   show_alloc.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
 CC = gcc -g
-CFLAGS = -Wextra -Wall -Werror -O2 #-fsanitize=address -fsanitize=undefined
+CFLAGS = -Wextra -Wall -Werror #-O2 #-fsanitize=address -fsanitize=undefined
 LDFLAGS = -L$(LFT_PATH)
 LDLIBS = -lft
 

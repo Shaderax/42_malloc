@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/28 07:58:46 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/11 19:25:36 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*alloc_tiny_small(size_t size, size_t size_m, t_page **b_page)
 				{
 					cur_page = g_maloc.tiny;
 					if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
-								   	FLAG_MMAP, -1, 0)) == MAP_FAILED)
+						FLAG_MMAP, -1, 0)) == MAP_FAILED)
 						return (NULL);
 					g_maloc.tiny->next = cur_page;
 					cur_page = g_maloc.tiny;
@@ -97,7 +97,7 @@ void	*alloc_large(size_t size)
 			cur_page = cur_page->next;
 		if (!cur_page->next)
 			if ((cur_page->next = mmap(NULL, size + sizeof(t_page_large),
-						   	PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+				PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
 				return (NULL);
 		cur_page = cur_page->next;
 	}
@@ -107,7 +107,7 @@ void	*alloc_large(size_t size)
 
 void	*malloc(size_t size)
 {
-	void*	ret;
+	void *ret;
 
 	if (size <= 0)
 		size = 1;

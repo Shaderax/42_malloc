@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:42:54 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/25 18:07:12 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/11 19:47:10 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ size_t	show(t_page *begin, size_t size_m)
 			cur = (void *)(cur_page) + sizeof(t_page) + OFFSET;
 			continue ;
 		}
+		// Wallah je ragarde le code d'origine
 		if (cur->use || !cur->use)
-		{
 			show_block((void *)(cur) + sizeof(t_block),
-					   (void *)cur + cur->size + sizeof(t_block), cur->size);
+				(void *)cur + cur->size + sizeof(t_block), cur->size);
+		if (cur->use || !cur->use)
 			tt += cur->size;
-		}
 		cur = (void*)(cur) + sizeof(t_block) + cur->size;
 	}
 	return (tt);
@@ -72,16 +72,19 @@ size_t	show_large(t_page_large *begin)
 	return (tt);
 }
 
-void	print_alloc(char *page_name, void *ptr, int size)
+size_t	print_alloc(char *page_name, void *ptr, int size)
 {
+	size_t total_oct;
+
+	total_oct = 0;
 	ft_putstr(page_name);
 	ft_putstr(" : 0x");
 	ft_print_addr((unsigned long long)ptr);
 	ft_putstr("\n");
 	if (size)
-		total_oct += show(ptr, size);
+		return ((total_oct += show(ptr, size)));
 	else
-		total_oct += show_large(ptr);
+		return ((total_oct += show_large(ptr)));
 }
 
 void	show_alloc_mem(void)

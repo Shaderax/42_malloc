@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 21:23:23 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/25 17:46:36 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/12 11:59:47 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	free_map(t_page *cur_page, t_page *prev, size_t size_m)
 		return ;
 	else if (prev != cur_page)
 		prev->next = cur_page->next;
-	size_m = 0;
 	munmap(cur_page, size_m);
 }
 
@@ -26,7 +25,8 @@ int		to_defrag(t_page *cur_page, t_block *cur, size_t size_m)
 {
 	t_block	*cur_p;
 
-	if ((void*)cur + sizeof(t_block) + cur->size <= MAX_PAGE - sizeof(t_block) - 1)
+	if ((void*)cur + sizeof(t_block) + cur->size <=
+		MAX_PAGE - sizeof(t_block) - 1)
 	{
 		cur_p = (void*)cur + sizeof(t_block) + cur->size;
 		if (!cur_p->use && cur_p->size)

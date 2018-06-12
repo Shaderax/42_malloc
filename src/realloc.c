@@ -6,13 +6,13 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/25 13:47:46 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/11 19:12:28 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	*search_and_copy_large(void	*ptr, size_t size_r)
+void	*search_and_copy_large(void *ptr, size_t size_r)
 {
 	void			*ret;
 	t_page_large	*cur_page;
@@ -26,7 +26,7 @@ void	*search_and_copy_large(void	*ptr, size_t size_r)
 		if (!ret)
 			return (NULL);
 		ft_memcpy((void*)ret, (void*)cur_page + sizeof(t_page_large),
-			   	size_r <= cur_page->size ? size_r : cur_page->size);
+			size_r <= cur_page->size ? size_r : cur_page->size);
 		if (cur_page == g_maloc.large)
 			g_maloc.large = cur_page->next;
 		else
