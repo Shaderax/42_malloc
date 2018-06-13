@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 16:42:54 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/11 19:47:10 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/13 11:28:25 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ size_t	show(t_page *begin, size_t size_m)
 			cur = (void *)(cur_page) + sizeof(t_page) + OFFSET;
 			continue ;
 		}
-		// Wallah je ragarde le code d'origine
 		if (cur->use || !cur->use)
 			show_block((void *)(cur) + sizeof(t_block),
 				(void *)cur + cur->size + sizeof(t_block), cur->size);
@@ -61,6 +60,10 @@ size_t	show_large(t_page_large *begin)
 
 	tt = 0;
 	cur_page = begin;
+	ft_putstr("LARGE");
+	ft_putstr(" : 0x");
+	ft_print_addr((unsigned long long)begin);
+	ft_putstr("\n");
 	while (cur_page)
 	{
 		show_block((void *)(cur_page) + sizeof(t_page_large),
@@ -91,6 +94,7 @@ void	show_alloc_mem(void)
 {
 	size_t total_oct;
 
+	pthread_mutex_lock(&g_malloc_lock);
 	total_oct = 0;
 	if (g_maloc.tiny)
 		total_oct += print_alloc("TINY", g_maloc.tiny, TINY_MAP);
@@ -101,4 +105,5 @@ void	show_alloc_mem(void)
 	ft_putstr("Total : ");
 	ft_putnbr(total_oct);
 	ft_putstr(" octects\n");
+	pthread_mutex_unlock(&g_malloc_lock);
 }

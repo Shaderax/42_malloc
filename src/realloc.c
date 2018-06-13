@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:53 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/11 19:12:28 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/13 11:11:45 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,16 @@ void	*realloc(void *ptr, size_t size)
 	if (!ptr)
 		return (malloc(size));
 	size += (ALIGN - (size + sizeof(t_block)) % ALIGN);
+	ret = NULL;
+	pthread_mutex_lock(&g_malloc_lock);
 	if (g_maloc.tiny &&
-			(ret = search_and_copy(g_maloc.tiny, TINY_MAP, ptr, size)))
-		return (ret);
+		(ret = search_and_copy(g_maloc.tiny, TINY_MAP, ptr, size)))
+		;
 	else if (g_maloc.small &&
-			(ret = search_and_copy(g_maloc.small, SMALL_MAP, ptr, size)))
-		return (ret);
+		(ret = search_and_copy(g_maloc.small, SMALL_MAP, ptr, size)))
+		;
 	else if (g_maloc.large && (ret = search_and_copy_large(ptr, size)))
-		return (ret);
-	return (NULL);
+		;
+	pthread_mutex_unlock(&g_malloc_lock);
+	return (ret);
 }

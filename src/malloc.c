@@ -6,13 +6,14 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 13:00:26 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/12 14:11:23 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/13 10:45:10 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/malloc.h"
 
-t_maloc		g_maloc = {NULL, NULL, NULL};
+t_maloc			g_maloc = {NULL, NULL, NULL};
+pthread_mutex_t	g_malloc_lock;
 
 void	*place_2_blocks(t_block *cur, size_t size)
 {
@@ -32,26 +33,26 @@ void	*new_page(size_t size_m, t_page *cur_page)
 {
 	if (!cur_page->next)
 	{
-				if (size_m == (size_t)TINY_MAP)
-				{
-					cur_page = g_maloc.tiny;
-					if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
-						FLAG_MMAP, -1, 0)) == MAP_FAILED)
-						return (NULL);
-					g_maloc.tiny->next = cur_page;
-					cur_page = g_maloc.tiny;
-					return (cur_page);
-				}
-				else
-				{
-					cur_page = g_maloc.small;
-					if ((g_maloc.small = mmap(NULL, size_m,
-						PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
-						return (NULL);
-					g_maloc.small->next = cur_page;
-					cur_page = g_maloc.small;
-					return (cur_page);
-				}
+		if (size_m == (size_t)TINY_MAP)
+		{
+			cur_page = g_maloc.tiny;
+			if ((g_maloc.tiny = mmap(NULL, size_m, PROT_MMAP,
+				FLAG_MMAP, -1, 0)) == MAP_FAILED)
+				return (NULL);
+			g_maloc.tiny->next = cur_page;
+			cur_page = g_maloc.tiny;
+			return (cur_page);
+		}
+		else
+		{
+			cur_page = g_maloc.small;
+			if ((g_maloc.small = mmap(NULL, size_m,
+				PROT_MMAP, FLAG_MMAP, -1, 0)) == MAP_FAILED)
+				return (NULL);
+			g_maloc.small->next = cur_page;
+			cur_page = g_maloc.small;
+			return (cur_page);
+		}
 	}
 	cur_page = cur_page->next;
 	return (cur_page);
@@ -116,23 +117,17 @@ void	*malloc(size_t size)
 {
 	void *ret;
 
+	ret = NULL;
 	if (size <= 0)
 		size = 1;
 	size += (ALIGN - (size + sizeof(t_block)) % ALIGN);
+	pthread_mutex_lock(&g_malloc_lock);
 	if (size <= MAX_TINY)
-	{
 		ret = (void*)alloc_tiny_small(size, TINY_MAP, &g_maloc.tiny);
-		return ((void*)ret);
-	}
 	else if (size <= MAX_SMALL)
-	{
 		ret = (void*)alloc_tiny_small(size, SMALL_MAP, &g_maloc.small);
-		return ((void*)ret);
-	}
 	else
-	{
 		ret = (void*)alloc_large(size);
-		return ((void*)ret);
-	}
-	return (NULL);
+	pthread_mutex_unlock(&g_malloc_lock);
+	return (ret);
 }

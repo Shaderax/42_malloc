@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 18:29:49 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/05/25 14:33:15 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/13 10:47:21 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int		find_and_free_alloc(t_page *begin, size_t size_m, void *ptr)
 
 void	free(void *ptr)
 {
+	pthread_mutex_lock(&g_malloc_lock);
 	if (!ptr)
+	{
+		pthread_mutex_unlock(&g_malloc_lock);
 		return ;
+	}
 	if (g_maloc.tiny && find_and_free_alloc(g_maloc.tiny, TINY_MAP, ptr))
 		;
 	else if (g_maloc.small &&
@@ -61,5 +65,6 @@ void	free(void *ptr)
 		;
 	else if (g_maloc.large && find_and_free_alloc_large(ptr))
 		;
+	pthread_mutex_unlock(&g_malloc_lock);
 	return ;
 }

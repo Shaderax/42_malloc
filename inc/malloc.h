@@ -6,7 +6,7 @@
 /*   By: nrouzeva <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 19:19:08 by nrouzeva          #+#    #+#             */
-/*   Updated: 2018/06/12 15:00:42 by nrouzeva         ###   ########.fr       */
+/*   Updated: 2018/06/13 10:39:36 by nrouzeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft/includes/libft.h"
 # include <sys/mman.h>
+# include <pthread.h>
 
 # define OFFSET		4
 # define ALIGN		16
@@ -61,7 +62,8 @@ struct 	s_maloc
 	t_page_large 	*large;
 };
 
-extern t_maloc			g_maloc;
+extern	t_maloc			g_maloc;
+extern	pthread_mutex_t	g_malloc_lock;
 
 void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
